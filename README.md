@@ -1,2 +1,2 @@
 # CiteQuest
-Quest plugin (rework)
+Quest core plugin
