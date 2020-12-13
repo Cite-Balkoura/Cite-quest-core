@@ -28,7 +28,7 @@ public class PlayerManager {
     }
 
     public void loadPlayerQuest(UUID uuid) {
-        Connection connection = MainLibs.sql.getConnection();
+        Connection connection = MainLibs.getSql();
         try {
             PreparedStatement q = connection.prepareStatement("SELECT * FROM `balkoura_quest` WHERE `player_id` = " +
                     "(SELECT `player_id` FROM `balkoura_player` WHERE `uuid` = '" + uuid.toString() + "');");
@@ -55,7 +55,7 @@ public class PlayerManager {
      *      Save de l'avancement d'une quête pour un joueur
      */
     public static void updatePlayerStep(UUID uuid, String id, int new_step) {
-        Connection connection = MainLibs.sql.getConnection();
+        Connection connection = MainLibs.getSql();
         try {
             PreparedStatement q = connection.prepareStatement("INSERT INTO `balkoura_quest`" +
                     "(`player_id`, `quest_id`, `step_id`) VALUES (" +

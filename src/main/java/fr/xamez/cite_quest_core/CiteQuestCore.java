@@ -9,6 +9,7 @@ public class CiteQuestCore extends JavaPlugin {
 
     private Manager MANAGER;
     private static CiteQuestCore instance;
+    public FileUtils fileUtils;
 
 
     @Override
@@ -16,7 +17,8 @@ public class CiteQuestCore extends JavaPlugin {
 
         instance = this;
 
-        new FileUtils(this).createFile(); // create the json file if not exist
+        this.fileUtils = new FileUtils(this);
+        this.fileUtils.createFile(); // create the json file if not exist
 
         this.MANAGER = new Manager(this); // register all Managers
 

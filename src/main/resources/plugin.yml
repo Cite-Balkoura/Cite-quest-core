@@ -9,6 +9,6 @@ depend:
   - Citizens
 commands:
   quest:
-    description: Ouvre l'interface des qûetes
+    description: Ouvre l'interface des quêtes
     aliases: [q, quete]
   tcc:

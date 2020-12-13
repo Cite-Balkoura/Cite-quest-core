@@ -1,5 +1,6 @@
 package fr.xamez.cite_quest_core.utils;
 
+import fr.milekat.cite_core.core.utils.QuestPoints;
 import fr.xamez.cite_quest_core.CiteQuestCore;
 import fr.xamez.cite_quest_core.enumerations.MessagesEnum;
 import fr.xamez.cite_quest_core.managers.Manager;
@@ -8,27 +9,22 @@ import net.citizensnpcs.api.npc.NPC;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MessagesUtil {
 
-    public static String RPMessage(String text, Player p, NPC npc){
+    public static void sendRPMessage(String text, Player p, NPC npc){
         String s = text.replaceAll("%npc%", npc.getName());
         s = s.replaceAll("%player%", "§b" + p.getName());
-        return s;
+        Manager.playerDialogues.remove(p.getUniqueId());
+        p.sendMessage(s);
     }
-
-    /*public static String RPMessageGain(String text, Player p, NPC npc, int emerald){
-        String s = text.replaceAll("%npc%", npc.getName());
-        s = s.replaceAll("%player%", p.getName());
-        s = s.replaceAll("%emerald%", Integer.toString(emerald));
-        return s;
-    }*/
 
     public static void sendBaseComponent(Quest quest, Player p){
         BaseComponent baseComponent = new TextComponent();
@@ -51,11 +47,9 @@ public class MessagesUtil {
                 List<String> dialogues;
                 if (step == 0){ dialogues = quest.getBegin_sentences(); }
                 else { dialogues = quest.getSteps().get(step - 1).getSentences(); }
-
                 for (String sentence : dialogues) {
-                    String s = MessagesUtil.RPMessage(sentence, p, npc);
                     try {
-                        p.sendMessage(s);
+                        MessagesUtil.sendRPMessage(sentence, p, npc);
                         TimeUnit.SECONDS.sleep(1L);
                     } catch (InterruptedException ignored) {}
                 }
@@ -74,9 +68,15 @@ public class MessagesUtil {
 
     public static void sendEndMessage(Player p, Quest quest, NPC npc){
         for (String sentence : quest.getEnd_sentences()){
-            p.sendMessage(RPMessage(sentence, p, npc));
+            sendRPMessage(sentence, p, npc);
         }
-        // TODO ADD EMERALD
+        try {
+            QuestPoints.addPoint(p.getUniqueId(), quest.getPoints());
+            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getPoints() + " points");
+        } catch (SQLException throwable) {
+            Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
+            throwable.printStackTrace();
+        }
     }
 
     public static String getColorForDifficulty(String difficulty){

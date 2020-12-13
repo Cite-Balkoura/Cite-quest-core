@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ItemStackUtil {
 
-    private final String name;
+    private String name;
     private final Material material;
     private final int quantity;
     private final List<String> lore;
@@ -52,6 +52,10 @@ public class ItemStackUtil {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Material getMaterial() {

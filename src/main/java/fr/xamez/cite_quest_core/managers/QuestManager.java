@@ -44,18 +44,18 @@ public class QuestManager {
 
     public static void giveStepReward(Player p, String id, int step) {
         Quest quest = Manager.questList.stream().filter(q -> q.getIdentifier().equals(id)).findFirst().get();
-        if (step < quest.getSteps().size()) {
+        if (quest.getSteps().size() < step - 1) {
             for (ItemStackUtil itemstack : quest.getSteps().get(step).getRewardItems()) {
                 p.getInventory().addItem(itemstack.toItemstack());
             }
-        }
-        if (quest.getSteps().get(step).getRewardCoins() > 0) {
-            try {
-                QuestPoints.addPoint(p.getUniqueId(), quest.getSteps().get(step).getRewardCoins());
-                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getSteps().get(step).getRewardCoins() + " points de quête");
-            } catch (SQLException throwable) {
-                Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
-                throwable.printStackTrace();
+            if (quest.getSteps().get(step).getRewardCoins() > 0) {
+                try {
+                    QuestPoints.addPoint(p.getUniqueId(), quest.getSteps().get(step).getRewardCoins());
+                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getSteps().get(step).getRewardCoins() + " points de quête");
+                } catch (SQLException throwable) {
+                    Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
+                    throwable.printStackTrace();
+                }
             }
         }
     }

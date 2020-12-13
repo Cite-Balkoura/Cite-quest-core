@@ -17,7 +17,7 @@ import java.util.*;
 
 public class QuestGUI extends FastInv {
 
-    public QuestGUI(Manager manager, Player p, int page) {
+    public QuestGUI(Manager manager, Player p) {
 
         super(6*9, "§6» §eListe des quêtes");
 
@@ -28,14 +28,12 @@ public class QuestGUI extends FastInv {
         ItemStack green_decoration = new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).setName(" ").toItemStack();
         setItems(18, 26, green_decoration);
 
-        // TODO put the correct % for the progression of each player
         ItemStack player_skull = new ItemBuilder(Material.PLAYER_HEAD).setName("§6» §e" + p.getName()).setLore(
                 Arrays.asList("", "§7➥ §fProgression: §a" + manager.getPlayerManager().getPlayerProgression(p) + "%",
                               "§7➥ §fQuêtes découverte: §b" + manager.getPlayerManager().getDiscoveredCountSecondaryQuest(p) + "§7/§b" + manager.getPlayerManager().totalSecondaryQuest,
                               "§7➥ §fPoints quêtes: §d" + MainCore.profilHashMap.get(p.getUniqueId()).getPoints_quest())
                 ).setSkullOwner(p).toItemStack();
         setItem(4, player_skull);
-
 
         // DISPLAY MAIN QUESTS
         int i = 9;
@@ -52,7 +50,6 @@ public class QuestGUI extends FastInv {
         displayPage(manager, p, 1);
         open(p);
     }
-
 
     private void displayPage(Manager manager, Player p, int page){
 

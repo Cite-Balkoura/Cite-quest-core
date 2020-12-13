@@ -29,16 +29,20 @@ public class QuestCommand implements CommandExecutor {
                 Player p = (Player) sender;
 
                 if (args.length == 0){
-                    new QuestGUI(manager, p, 1);
+                    new QuestGUI(manager, p);
                 } else if (args.length == 1){
                     if (args[0].equalsIgnoreCase("reload")){
-                        manager.getFileUtils().createFile();
-                        Manager.questList = new ArrayList<>(Arrays.asList(manager.getSerializationManager().deserialize(manager.getFileUtils().load())));
-                        manager.setQuestManager(new QuestManager(manager.getQuestList(), Manager.playerQuests));
-                        for (Player player : Bukkit.getOnlinePlayers()){
-                            manager.getPlayerManager().loadPlayerQuest(player.getUniqueId());
+                        if(p.hasPermission("modo.core.command.quest")) {
+                            manager.getFileUtils().createFile();
+                            Manager.questList = new ArrayList<>(Arrays.asList(manager.getSerializationManager().deserialize(manager.getFileUtils().load())));
+                            manager.setQuestManager(new QuestManager(manager.getQuestList(), Manager.playerQuests));
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                manager.getPlayerManager().loadPlayerQuest(player.getUniqueId());
+                            }
+                            sender.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§eRechargement des quêtes effectué !");
+                        } else {
+                            p.sendMessage("§cVous n'avez pas la permission d'utiliser cette commande.");
                         }
-                        sender.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§eRechargement des quêtes effectué !");
                     } else {
                         sendHelp(sender);
                         return false;

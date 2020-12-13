@@ -28,14 +28,15 @@ public class TextComponentCommand implements CommandExecutor {
                     p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cErreur, commande inconnu");
                     return false;
                 }
+                Integer id = Manager.playerQuests.get(p.getUniqueId()).get(parsed.getIdentifier());
                 if (parsed.getExtra().equals("accept")) {
-                    if (Manager.playerQuests.get(p.getUniqueId()).get(parsed.getIdentifier()) == null) {
+                    if (id == null || id == 0) {
                         PlayerManager.updatePlayerStep(p.getUniqueId(), parsed.getIdentifier(), parsed.getStep()); // put this quest as a discovery
                         p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous venez d'accepter la quête !");
                         return true;
                     }
                 } else if (parsed.getExtra().equals("refuse")) {
-                    if (Manager.playerQuests.get(p.getUniqueId()).get(parsed.getIdentifier()) == null) {
+                    if (id == null || id == 0) {
                         p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cVous venez de refuser la quête");
                         return false;
                     }

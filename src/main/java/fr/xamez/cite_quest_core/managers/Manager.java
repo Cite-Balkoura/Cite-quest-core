@@ -17,16 +17,15 @@ public class Manager {
     private QuestManager questManager;
     public static ArrayList<Quest> questList = new ArrayList<>();
     public static Map<UUID, Map<String, Integer>> playerQuests = new HashMap<>();
-    public static List<UUID> playerDialogues = new ArrayList<>();
+    public static Set<UUID> playerDialogues = new HashSet<>();
 
     public Manager(CiteQuestCore instance){
         this.citeQuestCore = instance;
-
         FastInvManager.register(instance);
 
         this.fileUtils = new FileUtils(instance);
         this.serializationManager = new SerializationManager();
-        questList = Arrays.asList(getSerializationManager().deserialize(getFileUtils().load())).equals(null) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(getSerializationManager().deserialize(getFileUtils().load())));
+        questList = getSerializationManager().deserialize(getFileUtils().load()) == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(getSerializationManager().deserialize(getFileUtils().load())));
         this.questManager = new QuestManager(questList, playerQuests);
         this.playerManager = new PlayerManager(this);
     }
