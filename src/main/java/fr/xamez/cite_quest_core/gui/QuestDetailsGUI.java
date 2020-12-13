@@ -53,7 +53,7 @@ public class QuestDetailsGUI extends FastInv {
                     int current_slot = inventoryClickEvent.getRawSlot() - 27;
                     int slot_indices = 9;
                     for (ItemStackUtil itemStackUtil : quest.getSteps().get(current_slot).getQuestIndices()) {
-                        if (itemStackUtil == null){ break; }
+                        if (itemStackUtil == null || itemStackUtil.getMaterial() != null){ break; }
                         itemStackUtil.setName("§bIndice " + (slot_indices - 8));
                         setItem(slot_indices, itemStackUtil.toItemstack());
                         slot_indices++;
@@ -73,7 +73,7 @@ public class QuestDetailsGUI extends FastInv {
         final int sfq = Manager.playerQuests.get(p.getUniqueId()).get(quest.getIdentifier()) > quest.getSteps().size() ? quest.getSteps().size() : Manager.playerQuests.get(p.getUniqueId()).get(quest.getIdentifier());
 
         for (ItemStackUtil itemStackUtil : quest.getSteps().get(sfq - 1).getQuestIndices()) {
-            if (itemStackUtil == null){ break; }
+            if (itemStackUtil == null || itemStackUtil.getMaterial() != null){ break; }
             itemStackUtil.setName("§bIndice " + (slot_indices - 8));
             setItem(slot_indices, itemStackUtil.toItemstack());
             slot_indices++;
