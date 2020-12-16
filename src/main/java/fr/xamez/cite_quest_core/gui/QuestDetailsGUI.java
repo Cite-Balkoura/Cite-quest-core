@@ -37,14 +37,14 @@ public class QuestDetailsGUI extends FastInv {
         int progression = 100 * current_step_of_player / (quest.getSteps().size() + 1);
         if (isQuestOver) { progression = 100; }
         ItemBuilder quest_item = new ItemBuilder(material).setName("§6» §eQuête " + quest.getIdentifier()).
-            setLore(Arrays.asList("", "§7➥ §fProgression: §a" + progression + "%")).addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
+            setLore(Arrays.asList("", "§7➥ §fProgression: §a" + progression + "%"));
         if (!isQuestOver){ quest_item.addLoreLine("§7➥ §fNuméro de l'étapes en cours: " + "§b" + current_step_of_player); }
         setItem(4, quest_item.toItemStack());
         // DISPLAY ALL STEPS
         int slot_steps = 27;
         for (QuestSteps step : quest.getSteps()) {
             if (current_step_of_player >= slot_steps - 26){ // if step has been discovered
-                ItemBuilder stepItemstack = new ItemBuilder(Material.FLOWER_BANNER_PATTERN).setName("§6● §e" + step.getIdentifier()).setLore(getStepDescription(step)).addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
+                ItemBuilder stepItemstack = new ItemBuilder(Material.FLOWER_BANNER_PATTERN).setName("§6● §e" + step.getIdentifier()).setLore(getStepDescription(step)).addItemFlag(ItemFlag.HIDE_ENCHANTS);
                 if (current_step_of_player == slot_steps - 26) {
                     stepItemstack.addEnchantements(Enchantment.LURE, 1);
                 }
@@ -53,7 +53,7 @@ public class QuestDetailsGUI extends FastInv {
                     int current_slot = inventoryClickEvent.getRawSlot() - 27;
                     int slot_indices = 9;
                     for (ItemStackUtil itemStackUtil : quest.getSteps().get(current_slot).getQuestIndices()) {
-                        if (itemStackUtil == null || itemStackUtil.getMaterial() != null){ break; }
+                        if (itemStackUtil == null || itemStackUtil.getMaterial() == null){ continue; }
                         itemStackUtil.setName("§bIndice " + (slot_indices - 8));
                         setItem(slot_indices, itemStackUtil.toItemstack());
                         slot_indices++;
@@ -73,7 +73,7 @@ public class QuestDetailsGUI extends FastInv {
         final int sfq = Manager.playerQuests.get(p.getUniqueId()).get(quest.getIdentifier()) > quest.getSteps().size() ? quest.getSteps().size() : Manager.playerQuests.get(p.getUniqueId()).get(quest.getIdentifier());
 
         for (ItemStackUtil itemStackUtil : quest.getSteps().get(sfq - 1).getQuestIndices()) {
-            if (itemStackUtil == null || itemStackUtil.getMaterial() != null){ break; }
+            if (itemStackUtil == null || itemStackUtil.getMaterial() == null){ break; }
             itemStackUtil.setName("§bIndice " + (slot_indices - 8));
             setItem(slot_indices, itemStackUtil.toItemstack());
             slot_indices++;

@@ -21,7 +21,7 @@ public class MessagesUtil {
 
     public static void sendRPMessage(String text, Player p, NPC npc){
         String s = text.replaceAll("%npc%", npc.getName());
-        s = s.replaceAll("%player%", "§b" + p.getName());
+        s = s.replaceAll("%player%", "§b" + p.getName() + "§r");
         Manager.playerDialogues.remove(p.getUniqueId());
         p.sendMessage(s);
     }
@@ -54,11 +54,6 @@ public class MessagesUtil {
                     } catch (InterruptedException ignored) {}
                 }
                 if (step == 0){
-                    try {
-                        TimeUnit.SECONDS.sleep(1L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     MessagesUtil.sendBaseComponent(quest, p);
                 }
                 Manager.playerDialogues.remove(p.getUniqueId());
@@ -68,6 +63,7 @@ public class MessagesUtil {
 
     public static void sendEndMessage(Player p, Quest quest, NPC npc){
         for (String sentence : quest.getEnd_sentences()){
+            if (sentence == null) { continue; }
             sendRPMessage(sentence, p, npc);
         }
         try {

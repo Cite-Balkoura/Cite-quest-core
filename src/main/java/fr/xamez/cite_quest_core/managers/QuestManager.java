@@ -39,6 +39,7 @@ public class QuestManager {
 
     public final boolean isQuestOver(Player p, String id){
         if (this.playerQuests.get(p.getUniqueId()) == null) { return false; }
+        if (!getQuestByIdentifier(id).isPresent()) { return false; }
         return this.playerQuests.get(p.getUniqueId()).get(id) > getQuestByIdentifier(id).get().getSteps().size();
     }
 

@@ -9,7 +9,7 @@ public class CommandManager {
     public CommandManager(CiteQuestCore instance){
 
         instance.getCommand("quest").setExecutor(new QuestCommand(instance.getMANAGER()));
-        instance.getCommand("tcc").setExecutor(new TextComponentCommand(instance.getMANAGER())); // erreur ici
+        instance.getCommand("tcc").setExecutor(new TextComponentCommand());
 
     }
 
