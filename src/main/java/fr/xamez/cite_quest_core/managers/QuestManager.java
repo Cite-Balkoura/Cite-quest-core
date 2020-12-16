@@ -45,13 +45,17 @@ public class QuestManager {
 
     public static void giveStepReward(Player p, String id, int step) {
         Quest quest = Manager.questList.stream().filter(q -> q.getIdentifier().equals(id)).findFirst().get();
-        if (quest.getSteps().size() < step - 1) {
+        step--;
+        if (step < 0){ return; }
+        if (quest.getSteps().size() > step) {
             for (ItemStackUtil itemstack : quest.getSteps().get(step).getRewardItems()) {
                 p.getInventory().addItem(itemstack.toItemstack());
             }
-            if (quest.getSteps().get(step).getRewardCoins() > 0) {
+            int points = quest.getSteps().get(step).getRewardCoins();
+            if (quest.getSteps().size() == step){ points += quest.getPoints(); }
+            if (points > 0){
                 try {
-                    QuestPoints.addPoint(p.getUniqueId(), quest.getSteps().get(step).getRewardCoins());
+                    QuestPoints.addPoint(p.getUniqueId(), points);
                     p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getSteps().get(step).getRewardCoins() + " points de quête");
                 } catch (SQLException throwable) {
                     Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");

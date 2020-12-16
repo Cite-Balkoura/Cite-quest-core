@@ -66,13 +66,6 @@ public class MessagesUtil {
             if (sentence == null) { continue; }
             sendRPMessage(sentence, p, npc);
         }
-        try {
-            QuestPoints.addPoint(p.getUniqueId(), quest.getPoints());
-            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getPoints() + " points");
-        } catch (SQLException throwable) {
-            Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
-            throwable.printStackTrace();
-        }
     }
 
     public static String getColorForDifficulty(String difficulty){
