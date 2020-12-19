@@ -31,7 +31,7 @@ public class QuestGUI extends FastInv {
         ItemStack player_skull = new ItemBuilder(Material.PLAYER_HEAD).setName("§6» §e" + p.getName()).setLore(
                 Arrays.asList("", "§7➥ §fProgression: §a" + manager.getPlayerManager().getPlayerProgression(p) + "%",
                               "§7➥ §fQuêtes découverte: §b" + manager.getPlayerManager().getDiscoveredCountSecondaryQuest(p) + "§7/§b" + manager.getPlayerManager().totalSecondaryQuest,
-                              "§7➥ §fPoints quêtes: §d" + MainCore.profilHashMap.get(p.getUniqueId()).getPoints_quest())
+                              "§7➥ §fPoints event: §d" + MainCore.profilHashMap.get(p.getUniqueId()).getPoints_event())
                 ).setSkullOwner(p).toItemStack();
         setItem(4, player_skull);
 
