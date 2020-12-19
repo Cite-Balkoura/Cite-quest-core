@@ -1,5 +1,6 @@
 package fr.xamez.cite_quest_core.managers;
 
+import fr.milekat.cite_core.core.utils.EventPoints;
 import fr.milekat.cite_core.core.utils.QuestPoints;
 import fr.xamez.cite_quest_core.enumerations.MessagesEnum;
 import fr.xamez.cite_quest_core.enumerations.QuestTypeEnum;
@@ -55,8 +56,8 @@ public class QuestManager {
             if (quest.getSteps().size() == step){ points += quest.getPoints(); }
             if (points > 0){
                 try {
-                    QuestPoints.addPoint(p.getUniqueId(), points);
-                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getSteps().get(step).getRewardCoins() + " points de quête");
+                    EventPoints.addPoint(p.getUniqueId(), points);
+                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getSteps().get(step).getRewardCoins() + " points évent");
                 } catch (SQLException throwable) {
                     Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
                     throwable.printStackTrace();
